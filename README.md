@@ -1,2 +1,1 @@
-# TA_v1.0_yoyo
-This repository contains a portfolio of technical art work created over three months of study, including code and technical documentation.（.md files are technical documentation; .shader files contain shader code.）
+This repository contains a portfolio of technical art projects I developed over three months of study, including code and technical documentation. (.md files serve as technical documentation; .shader files contain shader code.)
