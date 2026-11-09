@@ -1,4 +1,5 @@
 Target Role: Technical Artist (Rendering-focused)
+
 This repository contains a portfolio of technical art projects I developed over three months of study, including code and technical documentation. (.md files serve as technical documentation; .shader files contain shader code.)
 
 
