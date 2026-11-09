@@ -10,6 +10,6 @@ This repository contains a portfolio of technical art projects I developed over 
 07	Parallax Card	    UV、视差映射
 
 联系与说明
-作者：薛淑丹/1511053440/15110534406@163.com/xueshudan2024@qq.com
+作者：薛淑丹/15110534406/15110534406@163.com/xueshudan2024@qq.com
 GitHub：https://github.com/xueshudan999-spec/TA_v1.0_yoyo
 本仓库用于个人展示学习与技术实践。每个项目的实现范围和测试环境与每个项目文档相同。
