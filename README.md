@@ -3,7 +3,7 @@ This repository contains a portfolio of technical art projects I developed over 
 
 
 项目目录
-[01. PBR (基于物理的渲染)](./PBR/PBR.md)
+[01. PBR (基于物理的渲染)](./PBR/PBR_Weapon.md)
 [02. NPR (三渲二角色渲染)](./NPR/NPR.md)
 [03. Volumetric Cloud (体积云)](./volumetric%20cloud/volumetric%20cloud.md)
 [04. Sky (程序化极光天空)](./Sky/Sky.md)
