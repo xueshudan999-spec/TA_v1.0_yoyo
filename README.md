@@ -1,17 +1,7 @@
 # 技术美术 (TA) 作品集 - 渲染方向
 > 三个月独立手写完成。包含底层光照模型、体积渲染、程序化生成、后处理。
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/3179ab40-c432-4b45-a43a-0b48c7681890" width="80%" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/a5afe9d2-a80d-4ef3-a375-c2da433504af" width="80%" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/7daf0472-076c-4830-a0de-a17190d69346" width="80%" />
-</p>
+<!-- 【重要！】请在这里插入一张 3 张图横向拼接的效果图。你可以去仓库新建个 images 文件夹传上去，然后把路径贴在这里 --><img width="674" height="437" alt="屏幕截图 2026-11-04 155832" src="https://github.com/user-attachments/assets/3179ab40-c432-4b45-a43a-0b48c7681890" /><img width="641" height="361" alt="屏幕截图 2026-11-09 201639" src="https://github.com/user-attachments/assets/a5afe9d2-a80d-4ef3-a375-c2da433504af" /><img width="1181" height="660" alt="屏幕截图 2026-11-05 201315" src="https://github.com/user-attachments/assets/7daf0472-076c-4830-a0de-a17190d69346" />
 
 
 [作品集展示](图片链接放这里.png) 
@@ -31,12 +21,12 @@
 ## 核心项目shader代码导航
 
 - [01. NPR 角色渲染 (NPR Rendering)](./NPR/NPR.shader)
-- [02. 全屏故障后处理 (Post Processing)](./Post_Processing/Post_Processing..shader)
+- [02. 全屏故障后处理 (Post Processing)](./Post_Processing/Post_Processing.shader)
 - [03. PBR 枪械渲染 (PBR Weapon)](./PBR/PBR.shader)
-- [04. 视差卡牌 (Parallax Card)](./Parallax%20Card/Parallax%20Card..shader)
-- [05. 体积云 (Volumetric Cloud)](./volumetric%20cloud/volumetric%20cloud..shader)
-- [06. 故障特效 (Glitch)](./Glitch/Glitch..shader)
-- [07. 极光天空盒 (Skybox)](./Sky/Sky..shader)
+- [04. 视差卡牌 (Parallax Card)](./Parallax%20Card/Parallax%20Card.shader)
+- [05. 体积云 (Volumetric Cloud)](./volumetric%20cloud/volumetric%20cloud.shader)
+- [06. 故障特效 (Glitch)](./Glitch/Glitch.shader)
+- [07. 极光天空盒 (Skybox)](./Sky/Sky.shader)
 
 
 ---
