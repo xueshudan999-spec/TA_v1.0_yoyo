@@ -1,3 +1,4 @@
+Target Role: Technical Artist (Rendering-focused)
 This repository contains a portfolio of technical art projects I developed over three months of study, including code and technical documentation. (.md files serve as technical documentation; .shader files contain shader code.)
 
 TA_v1.0_yoyo/
@@ -24,6 +25,14 @@ TA_v1.0_yoyo/
 ├── Glitch/
     ├── 01_Glitch.shader
     ├── 02_Glitch.md
+
+01	NPR	                风格化渲染、光照与描边
+02	PBR	                材质、光照模型
+03	Glitch	            顶点动画、噪声、动态效果
+04	Volumetric Cloud	体积采样、噪声、光照
+05	Post Processing	    屏幕空间处理
+06	Sky / Aurora	    环境渲染、程序化效果
+07	Parallax Card	    UV、视差映射
 
 联系与说明
 作者：薛淑丹/1511053440/15110534406@163.com/xueshudan2024@qq.com
