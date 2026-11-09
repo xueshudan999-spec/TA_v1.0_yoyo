@@ -1,7 +1,9 @@
 # 技术美术 (TA) 作品集 - 渲染方向
 > 三个月独立手写完成。包含底层光照模型、体积渲染、程序化生成、后处理。
 
-<!-- 【重要！】请在这里插入一张 3 张图横向拼接的效果图。你可以去仓库新建个 images 文件夹传上去，然后把路径贴在这里 --><img width="674" height="437" alt="屏幕截图 2026-11-04 155832" src="https://github.com/user-attachments/assets/3179ab40-c432-4b45-a43a-0b48c7681890" /><img width="641" height="361" alt="屏幕截图 2026-11-09 201639" src="https://github.com/user-attachments/assets/a5afe9d2-a80d-4ef3-a375-c2da433504af" /><img width="1181" height="660" alt="屏幕截图 2026-11-05 201315" src="https://github.com/user-attachments/assets/7daf0472-076c-4830-a0de-a17190d69346" />
+<!-- 【重要！】请在这里插入一张 3 张图横向拼接的效果图。你可以去仓库新建个 images 文件夹传上去，然后把路径贴在这里 --><img width="1181" height="660" alt="屏幕截图 2026-11-05 201315" src="https://github.com/user-attachments/assets/16704f83-ca14-412b-830e-90b18c39b3f4" />
+
+
 
 
 [作品集展示](图片链接放这里.png) 
