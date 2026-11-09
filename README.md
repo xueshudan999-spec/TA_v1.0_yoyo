@@ -1,31 +1,6 @@
 Target Role: Technical Artist (Rendering-focused)
 This repository contains a portfolio of technical art projects I developed over three months of study, including code and technical documentation. (.md files serve as technical documentation; .shader files contain shader code.)
 
-TA_v1.0_yoyo/
-├── README.md
-├── PBR/
-    ├── 01_PBR.shader
-    ├── 02_PBR.md
-├── NPR/
-    ├── 01_NPR.shader
-    ├── 02_NPR.md
-├── volumetric cloud/
-    ├── 01_volumetric cloud.shader
-    ├── 02_volumetric cloud.md
-├── Sky/
-    ├── 01_Sky.shader
-    ├── 02_Sky.md
-├── Parallax Card/
-    ├── 01_Parallax Card.shader
-    ├── 02_Parallax Card.md
-├── Post_Processing/
-    ├── 01_Post_Processing.shader
-    ├── 02_Post_Processing.cs
-    ├── 03_Post_Processing.md
-├── Glitch/
-    ├── 01_Glitch.shader
-    ├── 02_Glitch.md
-
 01	NPR	                风格化渲染、光照与描边
 02	PBR	                材质、光照模型
 03	Glitch	            顶点动画、噪声、动态效果
