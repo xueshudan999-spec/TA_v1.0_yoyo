@@ -1,45 +1,53 @@
-Target Role: Technical Artist (Rendering-focused)
+# 技术美术 (TA) 作品集 - 渲染方向
+> 三个月独立手写完成。包含底层光照模型、体积渲染、程序化生成、后处理。
 
-This repository contains a portfolio of technical art projects I developed over three months of study, including code and technical documentation. (.md files serve as technical documentation; .shader files contain shader code.)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/3179ab40-c432-4b45-a43a-0b48c7681890" width="80%" />
+</p>
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/a5afe9d2-a80d-4ef3-a375-c2da433504af" width="80%" />
+</p>
 
-项目目录(md)
-
-[01. NPR (三渲二角色渲染)](./NPR/NPR.md)
-
-[02. Post_Processing (故障后处理)](./Post_Processing/Post_Processing.md)
-
-[03. PBR (基于物理的渲染)](./PBR/PBR_Weapon.md)
-
-[04. Parallax Card (视差卡牌)](./Parallax%20Card/Parallax%20Card.md)
-
-[05. Volumetric Cloud (体积云)](./volumetric%20cloud/volumetric%20cloud.md)
-
-[06. Glitch (物体故障特效)](./Glitch/Glitch.md)
-
-[07. Sky (程序化极光天空)](./Sky/Sky.md)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/7daf0472-076c-4830-a0de-a17190d69346" width="80%" />
+</p>
 
 
+[作品集展示](图片链接放这里.png) 
 
-项目目录
+---
 
-01	NPR	                风格化渲染、光照与描边
+## 核心项目导航
 
-02	Post Processing	    屏幕空间处理
+- [01. NPR 角色渲染 (NPR Rendering)](./NPR/NPR.md) - 三渲二、风格化光照、法线与切线描边
+- [02. 全屏故障后处理 (Post Processing)](./Post_Processing/Post_Processing.md) - 全屏扭曲、RGB 分离、伪随机色块
+- [03. PBR 枪械渲染 (PBR Weapon)](./PBR/PBR_Weapon.md) - Cook-Torrance、GGX、IBL、Split-Sum
+- [04. 视差卡牌 (Parallax Card)](./Parallax%20Card/Parallax%20Card.md) - 切线空间、UV 偏移、双面渲染、排障复盘
+- [05. 体积云 (Volumetric Cloud)](./volumetric%20cloud/volumetric%20cloud.md) - Raymarching、SDF、多重散射、Beer-Lambert
+- [06. 故障特效 (Glitch)](./Glitch/Glitch.md) - 顶点位移、时间分片控制、菲涅尔融合
+- [07. 极光天空盒 (Skybox)](./Sky/Sky.md) - 纯程序化生成、FBM、域扭曲、零贴图
 
-03	PBR	                材质、光照模型
+## 核心项目shader代码导航
 
-04	Parallax Card	      UV、视差映射
+- [01. NPR 角色渲染 (NPR Rendering)](./NPR/NPR.shader)
+- [02. 全屏故障后处理 (Post Processing)](./Post_Processing/Post_Processing..shader)
+- [03. PBR 枪械渲染 (PBR Weapon)](./PBR/PBR.shader)
+- [04. 视差卡牌 (Parallax Card)](./Parallax%20Card/Parallax%20Card..shader)
+- [05. 体积云 (Volumetric Cloud)](./volumetric%20cloud/volumetric%20cloud..shader)
+- [06. 故障特效 (Glitch)](./Glitch/Glitch..shader)
+- [07. 极光天空盒 (Skybox)](./Sky/Sky..shader)
 
-05	Volumetric Cloud	  体积采样、噪声、光照
 
-06	Glitch	            顶点动画、噪声、动态效果
+---
 
-07	Sky / Aurora	      环境渲染、程序化效果
+##  关于我 & 工程规范
 
-联系与说明
-作者：薛淑丹/15110534406/15110534406@163.com/xueshudan2024@qq.com
+- **求职意向**：技术美术实习生 (渲染向) 
+- **技术标签**：`HLSL` `Unity Built-in` `URP` `RenderDoc` `性能优化` `工程化排障`。
+- **文档说明**：仓库内所有 `.md` 文件均为对应项目的技术说明。包含了详细的核心公式推导、排障复盘（如体积云边缘拉伸、PBR死黑排查）以及移动端降级方案。所有代码均经过严格测试与规范重写。
 
-GitHub：https://github.com/xueshudan999-spec/TA_v1.0_yoyo
-
-本仓库用于个人展示学习与技术实践。每个项目的实现范围和测试环境与每个项目文档相同。
+联系方式：
+- 姓名：薛淑丹
+- 邮箱：15110534406@163.com / xueshudan2024@qq.com
+- 电话：15110534406
