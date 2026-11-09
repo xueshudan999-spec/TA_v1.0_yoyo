@@ -3,13 +3,13 @@ This repository contains a portfolio of technical art projects I developed over 
 
 
 项目目录
-[01. 基于物理的渲染 (PBR) 枪械](./PBR/PBR.md)
-[02. 三渲二角色渲染 (NPR)](./NPR/NPR.md)
-[03. 体积云渲染 (Volumetric Cloud)](./Volumetric_Cloud/Volumetric_Cloud.md)
-[04. 程序化极光天空盒](./Sky/Sky.md)
-[05. 2.5D 视差卡牌](./Parallax_Card/Parallax_Card.md)
-[06. 全屏故障后处理](./Post_Processing/Post_Processing.md)
-[07. Glitch 故障特效](./Glitch/Glitch.md)
+[01. PBR](./PBR/PBR.md)
+[02. NPR](./NPR/NPR.md)
+[03. Volumetric_Cloud](./VolumetricCloud/Volumetric_Cloud.md)
+[04. Sky](./Sky/Sky.md)
+[05. Parallax_Card](./Parallax_Card/Parallax_Card.md)
+[06. Post_Processing](./Post_Processing/Post_Processing.md)
+[07. Glitch](./Glitch/Glitch.md)
 
 01	NPR	                风格化渲染、光照与描边
 02	PBR	                材质、光照模型
