@@ -3,13 +3,13 @@ This repository contains a portfolio of technical art projects I developed over 
 
 
 项目目录
-[01. PBR](./PBR/PBR.md)
-[02. NPR](./NPR/NPR.md)
-[03. Volumetric_Cloud](./VolumetricCloud/VolumetricCloud.md)
-[04. Sky](./Sky/Sky.md)
-[05. Parallax_Card](./ParallaxCard/ParallaxCard.md)
-[06. Post_Processing](./Post_Processing/Post_Processing.md)
-[07. Glitch](./Glitch/Glitch.md)
+[01. PBR (基于物理的渲染)](./PBR/PBR.md)
+[02. NPR (三渲二角色渲染)](./NPR/NPR.md)
+[03. Volumetric Cloud (体积云)](./volumetric%20cloud/volumetric%20cloud.md)
+[04. Sky (程序化极光天空)](./Sky/Sky.md)
+[05. Parallax Card (视差卡牌)](./Parallax%20Card/Parallax%20Card.md)
+[06. Post_Processing (故障后处理)](./Post_Processing/Post_Processing.md)
+[07. Glitch (物体故障特效)](./Glitch/Glitch.md)
 
 01	NPR	                风格化渲染、光照与描边
 02	PBR	                材质、光照模型
