@@ -5,9 +5,9 @@ This repository contains a portfolio of technical art projects I developed over 
 项目目录
 [01. PBR](./PBR/PBR.md)
 [02. NPR](./NPR/NPR.md)
-[03. Volumetric_Cloud](./VolumetricCloud/Volumetric_Cloud.md)
+[03. Volumetric_Cloud](./VolumetricCloud/VolumetricCloud.md)
 [04. Sky](./Sky/Sky.md)
-[05. Parallax_Card](./Parallax_Card/Parallax_Card.md)
+[05. Parallax_Card](./ParallaxCard/ParallaxCard.md)
 [06. Post_Processing](./Post_Processing/Post_Processing.md)
 [07. Glitch](./Glitch/Glitch.md)
 
