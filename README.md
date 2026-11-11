@@ -23,8 +23,8 @@
 - [01. NPR 角色渲染 (NPR Rendering)](./NPR/NPR.md) - 三渲二、风格化光照、法线与切线描边
 - [02. 全屏故障后处理 (Post Processing)](./Post_Processing/Post_Processing.md) - 全屏扭曲、RGB 分离、伪随机色块
 - [03. PBR 枪械渲染 (PBR Weapon)](./PBR/PBR_Weapon.md) - Cook-Torrance、GGX、IBL、Split-Sum
-- [04. 视差卡牌 (Parallax Card)](./Parallax%20Card/Parallax%20Card.md) - 切线空间、UV 偏移、双面渲染、排障复盘
-- [05. 体积云 (Volumetric Cloud)](./volumetric%20cloud/volumetric%20cloud.md) - Raymarching、SDF、多重散射、Beer-Lambert
+- [04. 视差卡牌 (Parallax Card)](./Parallax_Card/Parallax_Card.md) - 切线空间、UV 偏移、双面渲染、排障复盘
+- [05. 体积云 (Volumetric Cloud)](./volumetric_cloud/volumetric_cloud.md) - Raymarching、SDF、多重散射、Beer-Lambert
 - [06. 故障特效 (Glitch)](./Glitch/Glitch.md) - 顶点位移、时间分片控制、菲涅尔融合
 - [07. 极光天空盒 (Skybox)](./Sky/Sky.md) - 纯程序化生成、FBM、域扭曲、零贴图
 
