@@ -11,7 +11,7 @@
   <img src="https://github.com/user-attachments/assets/59be367d-c96d-47d1-af29-585ab7faf300" width="80%" />
 </div>
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/64cac4bb-5727-485d-84dc-386ff993705c" width="80%" />
+ <img width="627" height="383" alt="屏幕截图 2026-11-11 184530" src="https://github.com/user-attachments/assets/d552876f-c0cb-46f7-bcb6-1cfd58911fc7" />
 </div>
 
 [作品集展示](图片链接放这里.png) 
