@@ -1,5 +1,5 @@
 # 技术美术 (TA) 作品集 - 渲染方向
-> 三个月独立手写完成。包含光照模型、体积渲染、程序化生成、后处理等。
+> 耗时3个月的学习成果。包含光照模型、体积渲染、程序化生成、后处理等。
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/0534d604-7472-4390-a635-031691fe29f7" width="80%" />
