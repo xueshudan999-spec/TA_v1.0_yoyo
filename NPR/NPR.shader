@@ -218,7 +218,7 @@ Shader "Code/NPR"
 			ENDCG
 		}
 		Pass{
-            Name "TANGENT"
+            Name "OutLine"
             Cull Front  
             CGPROGRAM
             #pragma vertex vert
@@ -242,9 +242,16 @@ Shader "Code/NPR"
             {
                 V2FData o;
                 // 用顶点色的alpha通道控制描边粗细
-                v.vertex.xyz += v.tangent.xyz *_OutlineScale*0.01 *v.vertexColor.a ; 
-                v.vertex.xyz += v.normal.xyz *_OutlineScale1*0.01 *v.vertexColor.a ; 
                 o.pos = UnityObjectToClipPos(v.vertex);
+                float3 viewNormal = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal.xyz);
+                float3 viewTangent = mul((float3x3)UNITY_MATRIX_IT_MV, v.tangent.xyz);
+
+                float2 projNormal = TransformViewToProjection(viewNormal.xy);
+                float2 projTangent = TransformViewToProjection(viewTangent.xy);
+                
+                o.pos.xy += projTangent * _OulineScale*0.01 * v.vertexColor.a;
+                o.pos.xy+= projNormal * _OulineScale1*0.01 * v.vertexColor.a;
+
                 return o;
             }
             float4 frag(V2FData i) : SV_Target
