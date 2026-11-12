@@ -239,5 +239,4 @@ Shader "Code/Card_CG"
 			ENDCG
 		}
 	}
-	CustomEditor "ASEMaterialInspector"
 }
