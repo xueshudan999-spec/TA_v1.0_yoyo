@@ -293,7 +293,4 @@ Shader "Code/PBR"
 			ENDCG
 		}
 	}
-	CustomEditor "ASEMaterialInspector"
-	
-	
 }
