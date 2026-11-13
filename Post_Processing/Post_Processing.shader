@@ -2,13 +2,13 @@ Shader "Custom/GlitchPostProcessIntegrated"
 {
     Properties
     {
-        //[Header(Basic)]
-        //_MainTex ("Screen Texture", 2D) = "white" {}
-
-        //[Header(Noise Textures)]
-        //_NoiseTex ("Noise Tex", 2D) = "gray" {}
-        //_Noise1Tex ("Distort Noise Tex", 2D) = "gray" {}
-        //_Noise2Tex ("Glitch Noise Tex", 2D) = "gray" {}
+//        [Header(Basic)]
+//        _MainTex ("Screen Texture", 2D) = "white" {}
+//
+//        [Header(Noise Textures)]
+//        _NoiseTex ("Noise Tex", 2D) = "gray" {}
+//        _Noise1Tex ("Distort Noise Tex", 2D) = "gray" {}
+//        _Noise2Tex ("Glitch Noise Tex", 2D) = "gray" {}
 
         [Header(HSV Color)]
         _HueShift ("Hue Shift", Range(-1, 1)) = 0
@@ -42,6 +42,7 @@ Shader "Custom/GlitchPostProcessIntegrated"
         _GlitchSpeed ("Block Speed", Range(0, 30)) = 5
         _GlitchShift ("Block Shift", Range(0, 0.2)) = 0.02
 
+        [Toggle]EnableColor("EnableColor",float)=0
         [HDR] _GlitchColorA ("Glitch Color A", Color) = (0.1, 1, 0.9, 1)
         [HDR] _GlitchColorB ("Glitch Color B", Color) = (1, 0.1, 0.6, 1)
         _GlitchColorVariation ("Glitch Color Variation", Range(0, 1)) = 0.2
@@ -110,7 +111,8 @@ Shader "Custom/GlitchPostProcessIntegrated"
             float _GlitchChance;
             float _GlitchSpeed;
             float _GlitchShift;
-
+            
+            float EnableColor;
             float4 _GlitchColorA;
             float4 _GlitchColorB;
             float _GlitchColorVariation;
@@ -155,7 +157,7 @@ Shader "Custom/GlitchPostProcessIntegrated"
                 float2 uv = i.uv;
                 float t = _Time.y;
 
-                // ============ 1.基础扭曲：正弦+噪声 ============
+                //基础扭曲：正弦+噪声
                 float wave = sin(uv.x * _DistortFrequency + t * _DistortSpeed) * _DistortStrength;
 
                 float2 noiseUV = uv * _Noise1Tex_ST.xy + _Noise1Tex_ST.zw + t * 0.1;
@@ -163,10 +165,10 @@ Shader "Custom/GlitchPostProcessIntegrated"
 
                 uv += float2(wave, 0.0) + n1 * _NoiseDistortStrength;
 
-                // ============ 2.全局水平抖动 ============
+                //全局水平抖动
                 uv.x += sin(floor(t * 5.0)) * _GlobalJitter;
 
-                // ============ 3.故障方块 ============
+                //故障方块
                 float2 sampleUV = uv;
                 float blockOn = 0.0;
                 float rBlock2 = 0.0;
@@ -203,13 +205,9 @@ Shader "Custom/GlitchPostProcessIntegrated"
                     sampleUV.x += lineOn * (lineRand - 0.5) * _GlitchShift * 0.5;
                 #endif
 
-                // ============ 4.RGB通道分离 ============
+                //RGB通道分离
                 float2 texel = _MainTex_TexelSize.xy;
                 float splitPixels = _RGBSplit;
-
-                #ifdef _GLITCH_BLOCK_ON
-                    splitPixels *= (1.0 + blockOn);
-                #endif
 
                 float2 split = texel * splitPixels;
 
@@ -218,14 +216,14 @@ Shader "Custom/GlitchPostProcessIntegrated"
                 col.g = tex2D(_MainTex, sampleUV).g;
                 col.b = tex2D(_MainTex, sampleUV - split).b;
 
-                // ============ 5.HSV调色 ============
+                //HSV调色
                 float3 hsv = RGBToHSV(col);
                 hsv.x = frac(hsv.x + _HueShift);
                 hsv.y = saturate(hsv.y + _SaturationShift);
                 hsv.z = saturate(hsv.z + _ValueShift);
                 col = HSVToRGB(hsv);
 
-                // ============ 6.黑白风格化+噪点 ============
+                //6.黑白风格化+噪点
                 float lum = luma(col);
                 float mono = step(lum, _MonoThreshold);
 
@@ -237,10 +235,13 @@ Shader "Custom/GlitchPostProcessIntegrated"
                 float3 monoColor = float3(mono, mono, mono) + noiseMono * _MonoNoiseStrength;
                 col = lerp(col, monoColor, saturate(_MonoAmount));
 
-                // ============ 7.颜色Pow/Boost============
+                //颜色Pow/Boost
                 col = pow(saturate(col), _ColorPow) * _ColorBoost;
 
-                // ============ 8.故障方块颜色覆盖============
+                //故障方块颜色覆盖
+                if (EnableColor==1)
+                {
+                    
                 #ifdef _GLITCH_BLOCK_ON
                     float3 glitchColor = lerp(_GlitchColorA.rgb, _GlitchColorB.rgb, rBlock2);
 
@@ -252,8 +253,9 @@ Shader "Custom/GlitchPostProcessIntegrated"
 
                     col = lerp(col, glitchColor, blockOn);
                 #endif
-
-                // ============ 9.扫描线+噪点 ============
+                }
+                
+                //扫描线+噪点
                 float scan = sin(uv.y * _ScanlineDensity + t * 20.0) * 0.5 + 0.5;
                 col *= lerp(1.0, scan, _ScanlineStrength);
 
@@ -264,7 +266,7 @@ Shader "Custom/GlitchPostProcessIntegrated"
 
                 col += (grain - 0.5) * _NoiseStrength;
 
-                // ============ 10.暗角 ============
+                //暗角
                 float dist = distance(uv, float2(0.5, 0.5));
                 float vignette = 1.0 - pow(dist, _VignettePower) * _VignetteStrength;
                 col *= saturate(vignette);
