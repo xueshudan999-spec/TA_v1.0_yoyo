@@ -1,3 +1,4 @@
+
 # 技术美术 (TA) 作品集 - 渲染方向
 > 耗时3个月的学习成果。包含光照模型、体积渲染、程序化生成、后处理等。
 
@@ -11,7 +12,7 @@
   <img src="https://github.com/user-attachments/assets/59be367d-c96d-47d1-af29-585ab7faf300" width="80%" />
 </div>
 <div align="center">
-<img width="1280" height="710" alt="屏幕截图 2026-11-16 160014" src="https://github.com/user-attachments/assets/33910a81-4d67-4178-84c3-06ba7f841ee2" />
+  <img src="https://github.com/user-attachments/assets/48f9cfd6-b910-4af4-bb42-1c904297c79b" width="80%" />
 </div>
 
 [作品集展示](图片链接放这里.png) 
