@@ -62,5 +62,4 @@ Shader采用了两个Pass：基础光照与材质表现和背面描边。
 详见视频链接。
 
 6. 局限性与未来优化方向
-    a. 资源限制：基于RenderDoc截帧，贴图未做最优化的通道合并（如将LightMap与ShadowMap的灰度图打包到同一张RGBA中），后续若用于实际项目，可大幅缩减Draw Call。
-    b. 法线平滑：描边在极度锐利的边缘仍可能存在少量断线，后续可考虑引入平滑法线（Smooth Normal）烘焙贴图。
+    资源限制：基于RenderDoc截帧，贴图未做最优化的通道合并（如将LightMap与ShadowMap的灰度图打包到同一张RGBA中），后续若用于实际项目，可大幅缩减Draw Call。
