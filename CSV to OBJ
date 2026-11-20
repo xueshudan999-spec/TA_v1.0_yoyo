@@ -1,0 +1,296 @@
+bl_info = {
+    "name": "CSV to OBJ Generator",
+    "author": "Assistant",
+    "version": (1, 1, 1),
+    "blender": (3, 0, 0),
+    "location": "View3D > Sidebar > CSV OBJ",
+    "category": "Import-Export",
+}
+
+import bpy
+import csv
+import os
+import math
+from mathutils import Vector
+
+def _get_float(row, key, default=0.0):
+    if key not in row: return default
+    s = row.get(key, "")
+    if not s or s.strip() == "": return default
+    try: return float(s.strip())
+    except: return default
+
+def _get_int(row, key, default=0):
+    return int(float(_get_float(row, key, default)))
+
+def import_csv_to_obj(
+    csv_path,
+    export_path="",
+    flip_v=True,
+    create_vertex_groups=True,
+    keep_csv_axes=True,
+    clear_scene=False,
+    merge_dist=0.001,
+    use_weighted_normal=True
+):
+    if not os.path.isfile(csv_path): raise FileNotFoundError(csv_path)
+
+    # 1. 读取 CSV 数据
+    raw_vertices = []
+    with open(csv_path, "r", encoding="utf-8-sig", newline="") as f:
+        reader = csv.DictReader(f)
+        if reader.fieldnames is None: raise ValueError("CSV 没有表头")
+        reader.fieldnames = [fn.strip() if fn else fn for fn in reader.fieldnames]
+
+        for row in reader:
+            if not row or not row.get("VTX", "").strip(): continue
+            
+            co = (_get_float(row, "ATTRIBUTE0.x"), _get_float(row, "ATTRIBUTE0.y"), _get_float(row, "ATTRIBUTE0.z"))
+            normal = (_get_float(row, "ATTRIBUTE1.x"), _get_float(row, "ATTRIBUTE1.y"), _get_float(row, "ATTRIBUTE1.z"))
+            uv = (_get_float(row, "ATTRIBUTE5.x"), _get_float(row, "ATTRIBUTE5.y"))
+            color = (_get_float(row, "ATTRIBUTE13.x", 1.0), _get_float(row, "ATTRIBUTE13.y", 1.0), _get_float(row, "ATTRIBUTE13.z", 1.0), _get_float(row, "ATTRIBUTE13.w", 1.0))
+            bone_indices = [_get_int(row, "ATTRIBUTE3.x"), _get_int(row, "ATTRIBUTE3.y"), _get_int(row, "ATTRIBUTE3.z"), _get_int(row, "ATTRIBUTE3.w")]
+            weights = [_get_float(row, "ATTRIBUTE4.x"), _get_float(row, "ATTRIBUTE4.y"), _get_float(row, "ATTRIBUTE4.z"), _get_float(row, "ATTRIBUTE4.w")]
+
+            raw_vertices.append({
+                "co": co, "normal": normal, "uv": uv, "color": color, 
+                "bone_indices": bone_indices, "weights": weights
+            })
+
+    if not raw_vertices: raise ValueError("没有解析到顶点")
+
+    if clear_scene:
+        try: bpy.ops.object.mode_set(mode="OBJECT")
+        except: pass
+        bpy.ops.object.select_all(action="SELECT")
+        bpy.ops.object.delete(use_global=False)
+
+    # 2. 顶点去重与映射
+    unique_vertices_data = []
+    v_map = {}
+    for idx, v in enumerate(raw_vertices):
+        co_key = (round(v["co"][0], 5), round(v["co"][1], 5), round(v["co"][2], 5))
+        if co_key not in v_map:
+            v_map[idx] = len(unique_vertices_data)
+            unique_vertices_data.append(v)
+        else:
+            v_map[idx] = v_map[co_key]
+
+    # 3. 坐标计算与缩放
+    min_x = min(v["co"][0] for v in unique_vertices_data); max_x = max(v["co"][0] for v in unique_vertices_data)
+    min_y = min(v["co"][1] for v in unique_vertices_data); max_y = max(v["co"][1] for v in unique_vertices_data)
+    min_z = min(v["co"][2] for v in unique_vertices_data); max_z = max(v["co"][2] for v in unique_vertices_data)
+
+    scale_factor = 0.01 if (max_z - min_z) > 10.0 else 1.0
+    center_x = (min_x + max_x) / 2.0; center_y = (min_y + max_y) / 2.0; bottom_z = min_z
+
+    final_vertices = []
+    for v in unique_vertices_data:
+        x = (v["co"][0] - center_x) * scale_factor
+        y = (v["co"][1] - center_y) * scale_factor
+        z = (v["co"][2] - bottom_z) * scale_factor
+        final_vertices.append((x, y, z))
+
+    # 4. 纠正三角面绕序（防止背面剔除）
+    final_faces = []
+    for i in range(0, len(raw_vertices) - 2, 3):
+        if (i + 2) in v_map:
+            v0 = v_map[i]
+            v1 = v_map[i + 1]
+            v2 = v_map[i + 2]
+            
+            p0 = Vector(final_vertices[v0])
+            p1 = Vector(final_vertices[v1])
+            p2 = Vector(final_vertices[v2])
+            
+            face_n = (p1 - p0).cross(p2 - p0)
+            if face_n.length < 1e-6: continue
+            
+            n0 = Vector(unique_vertices_data[v0]["normal"])
+            n1 = Vector(unique_vertices_data[v1]["normal"])
+            n2 = Vector(unique_vertices_data[v2]["normal"])
+            avg_n = n0 + n1 + n2
+            
+            if face_n.dot(avg_n) < 0:
+                final_faces.append((v0, v2, v1))
+            else:
+                final_faces.append((v0, v1, v2))
+
+    mesh = bpy.data.meshes.new("CSV_Mesh")
+    mesh.from_pydata(final_vertices, [], final_faces)
+    mesh.update()
+
+    obj = bpy.data.objects.new("CSV_Model", mesh)
+    bpy.context.collection.objects.link(obj)
+
+    bpy.ops.object.select_all(action="DESELECT")
+    obj.select_set(True)
+    bpy.context.view_layer.objects.active = obj
+    
+    # 5. 清理网格与融合顶点
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.select_all(action='SELECT')
+    bpy.ops.mesh.delete_loose()
+    bpy.ops.mesh.remove_doubles(threshold=max(merge_dist, 0.001))
+    bpy.ops.object.mode_set(mode='OBJECT')
+    
+    bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
+
+    # === 核心修复区：彻底清除自定义法线，强制平滑 ===
+    
+    # 6.1 强制清除 CSV 带进来的任何自定义法线数据
+    if hasattr(mesh, "has_custom_normals") and mesh.has_custom_normals:
+        bpy.ops.mesh.customdata_custom_split_normals_clear()
+    
+    # 6.2 开启全平滑
+    bpy.ops.object.shade_smooth()
+
+    # 6.3 兼容 Blender 4.1 以下版本的自动平滑
+    if hasattr(mesh, "use_auto_smooth"):
+        mesh.use_auto_smooth = True
+        mesh.auto_smooth_angle = math.pi  # 180度
+
+    # 6.4 兼容 Blender 4.1+ 的平滑修改器，并处理加权法线
+    if use_weighted_normal:
+        try:
+            mod_wn = obj.modifiers.new(name="加权法线", type='WEIGHTED_NORMAL')
+            mod_wn.keep_sharp = False 
+            mod_wn.weight = 50 
+        except: pass
+    else:
+        # 如果不勾选加权法线，Blender 4.1+ 需要额外添加“按角度平滑”修改器
+        if bpy.app.version >= (4, 1, 0):
+            try:
+                bpy.ops.object.modifier_add_node_group(asset_library_type='ESSENTIALS', asset_library_identifier="Smooth by Angle", relative_asset_identifier="geometry_nodes\\smooth_by_angle.blend\\NodeTree\\Smooth by Angle")
+                mod = obj.modifiers[-1]
+                mod["Input_1"] = math.radians(180.0)
+            except: pass
+
+    # 7. 材质与 UV
+    mat = bpy.data.materials.new(name="CSV_Material")
+    mat.use_backface_culling = False
+    obj.data.materials.append(mat)
+
+    uv_layer = mesh.uv_layers.new(name="UVMap")
+    for poly in mesh.polygons:
+        for li in poly.loop_indices:
+            vi = mesh.loops[li].vertex_index
+            u, v = unique_vertices_data[vi]["uv"]
+            uv_layer.data[li].uv = (u, 1.0 - v if flip_v else v)
+
+    try:
+        color_attr = mesh.color_attributes.new(name="Color", type='FLOAT_COLOR', domain='POINT')
+        for i, v in enumerate(unique_vertices_data):
+            if i < len(color_attr.data):
+                r, g, b, a = v["color"]
+                color_attr.data[i].color = (r, g, b, a)
+    except: pass
+
+    # 8. 顶点组骨骼权重
+    if create_vertex_groups:
+        for old_idx, v in enumerate(raw_vertices):
+            new_idx = v_map[old_idx]
+            for bone_idx, weight in zip(v["bone_indices"], v["weights"]):
+                if weight <= 0.0: continue
+                group_name = "Bone_%d" % bone_idx
+                vg = obj.vertex_groups.get(group_name) or obj.vertex_groups.new(name=group_name)
+                vg.add([new_idx], weight, "REPLACE")
+
+    # 9. 导出 OBJ 
+    if not export_path:
+        export_path = os.path.splitext(csv_path)[0] + ".obj"
+    export_dir = os.path.dirname(export_path)
+    if export_dir: os.makedirs(export_dir, exist_ok=True)
+
+    try:
+        bpy.ops.wm.obj_export(
+            filepath=export_path, 
+            export_selected_objects=True, 
+            export_uv=True,
+            export_normals=True, 
+            export_materials=False, 
+            forward_axis="-Z", 
+            up_axis="Y",
+            apply_modifiers=True  # 必须应用修改器（把平滑效果烘焙进文件）
+        )
+    except Exception as e: print("OBJ导出失败:", e)
+
+    return obj, export_path, len(final_faces)
+
+# ---- UI 面板 ----
+class CSVOBJ_PG(bpy.types.PropertyGroup):
+    export_path: bpy.props.StringProperty(name="导出 OBJ 路径", subtype="FILE_PATH", default="")
+    flip_v: bpy.props.BoolProperty(name="翻转 UV 的 V", default=True)
+    create_vertex_groups: bpy.props.BoolProperty(name="生成骨骼顶点组", default=True)
+    keep_csv_axes: bpy.props.BoolProperty(name="保持 CSV 坐标轴", default=True)
+    clear_scene: bpy.props.BoolProperty(name="导入前清空场景", default=False)
+    
+    merge_dist: bpy.props.FloatProperty(name="顶点焊接距离", default=0.001, step=0.001, precision=4)
+    use_weighted_normal: bpy.props.BoolProperty(name="使用加权法线平滑光影", default=True)
+
+class CSVOBJ_OT_import_csv(bpy.types.Operator):
+    bl_idname = "csv_obj.import_csv"
+    bl_label = "选择 CSV 并生成 OBJ"
+    bl_options = {"REGISTER", "UNDO"}
+    filepath: bpy.props.StringProperty(subtype="FILE_PATH")
+    filter_glob: bpy.props.StringProperty(default="*.csv", options={"HIDDEN"})
+
+    def invoke(self, context, event):
+        context.window_manager.fileselect_add(self)
+        return {"RUNNING_MODAL"}
+
+    def execute(self, context):
+        props = context.scene.csv_obj_props
+        try:
+            import_csv_to_obj(
+                csv_path=self.filepath, export_path=props.export_path.strip(),
+                flip_v=props.flip_v, create_vertex_groups=props.create_vertex_groups,
+                keep_csv_axes=props.keep_csv_axes, clear_scene=props.clear_scene,
+                merge_dist=props.merge_dist, use_weighted_normal=props.use_weighted_normal
+            )
+        except Exception as e:
+            self.report({"ERROR"}, "生成失败: %s" % str(e))
+            return {"CANCELLED"}
+        self.report({"INFO"}, "生成完成！法线已强制平滑。")
+        return {"FINISHED"}
+
+class CSVOBJ_PT_panel(bpy.types.Panel):
+    bl_label = "CSV 生成 OBJ"
+    bl_idname = "CSVOBJ_PT_panel"
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "UI"
+    bl_category = "CSV OBJ"
+
+    def draw(self, context):
+        layout = self.layout
+        props = context.scene.csv_obj_props
+        
+        layout.prop(props, "export_path")
+        layout.prop(props, "flip_v")
+        layout.prop(props, "create_vertex_groups")
+        layout.prop(props, "keep_csv_axes")
+        layout.prop(props, "clear_scene")
+        
+        layout.separator()
+        layout.label(text="平滑设置:")
+        layout.prop(props, "merge_dist")
+        layout.prop(props, "use_weighted_normal")
+        
+        layout.separator()
+        layout.operator("csv_obj.import_csv", text="选择 CSV 并生成 OBJ", icon="FILE_FOLDER")
+
+classes = (CSVOBJ_PG, CSVOBJ_OT_import_csv, CSVOBJ_PT_panel)
+
+def register():
+    for cls in classes:
+        bpy.utils.register_class(cls)
+    bpy.types.Scene.csv_obj_props = bpy.props.PointerProperty(type=CSVOBJ_PG)
+
+def unregister():
+    if hasattr(bpy.types.Scene, "csv_obj_props"):
+        del bpy.types.Scene.csv_obj_props
+    for cls in reversed(classes):
+        bpy.utils.unregister_class(cls)
+
+if __name__ == "__main__":
+    register()
