@@ -2,16 +2,16 @@
 > 耗时3个月的学习成果。包含光照模型、体积渲染、程序化生成、后处理等。
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/0534d604-7472-4390-a635-031691fe29f7" width="80%" />
-</div>
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/0dbed41a-25ac-4bc0-840f-efd0b837c6a0" width="80%" />
-</div>
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/eb07d4d6-d752-42f1-a9e6-6fdaf19983d4" width="80%" />
+  <img src="https://github.com/user-attachments/assets/8949735a-936b-4470-b694-cd5067f5de56" width="80%" />
 </div>
 <div align="center">
   <img src="https://github.com/user-attachments/assets/48f9cfd6-b910-4af4-bb42-1c904297c79b" width="80%" />
+</div>
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/eb07d4d6-d752-42f1-a9e6-6fdaf19983d4" width="90%" />
+</div>
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/0dbed41a-25ac-4bc0-840f-efd0b837c6a0" width="80%" />
 </div>
 
 [作品集展示]([https://b23.tv/3WDU13Z) 
